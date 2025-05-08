@@ -32,6 +32,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
