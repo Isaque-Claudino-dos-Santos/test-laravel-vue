@@ -10,7 +10,7 @@ class Post extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'body', 'user_id'];
+    protected $fillable = ['title', 'content', 'user_id'];
 
     public function user(): BelongsTo
     {
