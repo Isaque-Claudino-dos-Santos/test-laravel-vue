@@ -1,19 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\DTOs\Posts\CreatePostDTO;
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PostsCollection;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
-    public function createNewPost(CreatePostRequest $request)
+    public function getPosts(Request $request)
+    {
+        $userId = $request->query('user_id');
+
+        $posts = Post::query()
+            ->where('id', $userId)
+            ->get();
+
+        return PostsCollection::make($posts);
+    }
+
+    public function createPost(CreatePostRequest $request)
     {
         $user = $request->user();
         $dto = CreatePostDTO::make($request->validated());
@@ -29,15 +40,5 @@ class PostController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    public function getPost(Request $request)
-    {
-        $userId = $request->query('user_id');
-
-        $posts = Post::query()
-            ->where('id', $userId)
-            ->get();
-
-        return PostsCollection::make($posts);
-    }
 
 }
