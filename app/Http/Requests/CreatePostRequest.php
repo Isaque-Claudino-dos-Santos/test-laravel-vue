@@ -2,14 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Http\traits\FailedValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreatePostRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
+    use FailedValidationTrait;
 
     public function rules(): array
     {

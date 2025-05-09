@@ -1,6 +1,7 @@
 <script setup type="ts">
 import NavLink from "@/Components/NavLink.vue";
 import Post from "@/Components/Post.vue";
+import Title from "@/Components/Title.vue";
 import usePosts from "@/hooks/use-posts";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
@@ -10,9 +11,7 @@ const {data,isLoading}= usePosts()
 <template>
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Posts
-            </h2>
+            <Title>Posts</Title>
         </template>
 
         <div v-if="isLoading">
@@ -27,7 +26,7 @@ const {data,isLoading}= usePosts()
                 <NavLink
                     :href="route('posts.create')"
                     :active="route().current('posts.create')"
-                    class="text-sm text-blue-800"
+                    class="text-sm text-blue-700"
                 >
                     + Create Post
                 </NavLink>

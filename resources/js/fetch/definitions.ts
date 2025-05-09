@@ -13,3 +13,13 @@ export type CreatePostPayload = {
     title: string;
     content: string;
 };
+
+export type ErrorResponse = {
+    title: string | null;
+    description: string | null;
+    statusCode: number;
+    errorCode: string | null;
+    fields: Record<string, string[]> | null;
+    instance: string | null;
+    timestamp: string;
+};

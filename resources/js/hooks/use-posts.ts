@@ -10,6 +10,8 @@ export default function usePosts() {
     const { data, isLoading } = useQuery({
         queryKey: [QUERY_KEY.GET_POSTS, userId],
         queryFn: () => getPosts({ token, userId }),
+        refetchOnWindowFocus: false,
+        retry: false,
     });
 
     return {
