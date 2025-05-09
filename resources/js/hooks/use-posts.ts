@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/vue-query";
 import { getPosts } from "@/fetch/http-posts";
-import useApiToken from "./use-api-token";
-import { usePage } from "@inertiajs/vue3";
+import useSession from "./use-session";
+import QUERY_KEY from "@/Constants/query-key";
 
 export default function usePosts() {
-    const page = usePage();
-    const token = useApiToken();
-    const { data, error, isLoading } = useQuery({
-        queryKey: ["posts", token, page.props.auth.user.id],
-        queryFn: () => getPosts({ token, userId: page.props.auth.user.id }),
+    const { apiToken: token, user } = useSession();
+    const userId = user.id;
+
+    const { data, isLoading } = useQuery({
+        queryKey: [QUERY_KEY.GET_POSTS, userId],
+        queryFn: () => getPosts({ token, userId }),
     });
 
     return {
         data,
-        error,
         isLoading,
     };
 }

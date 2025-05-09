@@ -4,7 +4,7 @@ import Post from "@/Components/Post.vue";
 import usePosts from "@/hooks/use-posts";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
-const {data,error,isLoading}= usePosts()
+const {data,isLoading}= usePosts()
 </script>
 
 <template>
