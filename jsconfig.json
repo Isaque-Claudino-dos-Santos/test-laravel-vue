@@ -1,10 +1,20 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
+        "target": "ES2022",
+        "module": "ES2022",
+        "moduleResolution": "node",
         "paths": {
-            "@/*": ["resources/js/*"],
-            "ziggy-js": ["./vendor/tightenco/ziggy"]
+            "@/*": [
+                "resources/js/*"
+            ],
+            "ziggy-js": [
+                "./vendor/tightenco/ziggy"
+            ]
         }
     },
-    "exclude": ["node_modules", "public"]
+    "exclude": [
+        "node_modules",
+        "public"
+    ]
 }
