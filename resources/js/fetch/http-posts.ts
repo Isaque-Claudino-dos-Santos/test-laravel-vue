@@ -1,5 +1,6 @@
 import { apiAxios } from "@/fetch/axios-instance";
 import { CreatePostPayload, Post, ResponseData } from "@/fetch/definitions";
+import AxiosBuilder from "@/utils/axios-builder";
 
 export type GetPostsOptions = {
     token?: string;
@@ -14,28 +15,25 @@ export type CreatePostOptions = {
 export async function getPosts(optinos: GetPostsOptions) {
     const { token, userId } = optinos;
 
-    return await apiAxios
-        .get<ResponseData<Post[]>>("/api/posts", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            params: {
-                user_id: userId,
-            },
-        })
-        .then((r) => r.data.data);
+    const params = {
+        user_id: userId,
+    };
+
+    return await AxiosBuilder.build(apiAxios)
+        .get("/api/posts")
+        .bearer(token)
+        .params(params)
+        .fetch<ResponseData<Post[]>>()
+        .then((response) => response.data);
 }
 
 export async function createPost(optinos: CreatePostOptions) {
     const { payload, token } = optinos;
 
-    console.log(token);
-
-    return await apiAxios
-        .post<ResponseData<Post>>("/api/posts", payload, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-        .then((r) => r.data.data);
+    return await AxiosBuilder.build(apiAxios)
+        .post("/api/posts")
+        .bearer(token)
+        .payload(payload)
+        .fetch<ResponseData<Post>>()
+        .then((r) => r.data);
 }
