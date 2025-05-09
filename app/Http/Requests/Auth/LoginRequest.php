@@ -91,6 +91,10 @@ class LoginRequest extends FormRequest
             $abilities[] = 'admin';
         }
 
+        $user->tokens->where('name', 'api_acesse_token')->each(function ($token) {
+            $token->delete();
+        });
+
         $token = $user->createToken('api_acesse_token', $abilities ?? []);
 
         request()->session()->put('api_acesse_token', $token->plainTextToken);

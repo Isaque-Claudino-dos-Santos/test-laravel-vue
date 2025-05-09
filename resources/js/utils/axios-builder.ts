@@ -1,4 +1,6 @@
+import { ErrorResponse } from "@/fetch/definitions";
 import { Axios, AxiosError } from "axios";
+import { useToast } from "vue-toast-notification";
 
 export default class AxiosBuilder {
     private _url?: string;
@@ -61,7 +63,8 @@ export default class AxiosBuilder {
             return response.data as T;
         } catch (err) {
             if (err instanceof AxiosError) {
-                //TODO: handle error
+                const error: AxiosError<ErrorResponse> = err;
+                useToast().error(error.response.data.title);
             }
         }
 

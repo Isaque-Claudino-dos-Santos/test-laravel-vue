@@ -1,8 +1,12 @@
 <?php
 
+use App\Constants\ErrorCodeEnum;
+use App\Http\Resources\ErrorResource;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,9 +20,15 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
-
-        //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (AuthenticationException $exception) {
+            $error = ErrorResource::make([
+                'title' => $exception->getMessage(),
+                'statusCode' => Response::HTTP_UNAUTHORIZED,
+                'errorCode' => ErrorCodeEnum::UNAUTHENTICATED
+            ]);
+
+            return response()->json($error, $error['statusCode']);
+        });
     })->create();
