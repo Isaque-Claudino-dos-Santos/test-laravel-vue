@@ -21,6 +21,13 @@ class PostController extends Controller
         return Inertia::render('Posts/List', compact('apiAcesseToken'));
     }
 
+    public function create(Request $request)
+    {
+        $apiAcesseToken = $request->session()->get('api_acesse_token');
+
+        return Inertia::render('Posts/CreatePost', compact('apiAcesseToken'));
+    }
+
     public function getPosts(Request $request)
     {
         $userId = $request->query('user_id');

@@ -1,4 +1,5 @@
 <script setup type="ts">
+import NavLink from "@/Components/NavLink.vue";
 import Post from "@/Components/Post.vue";
 import usePosts from "@/hooks/use-posts";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
@@ -18,12 +19,27 @@ const {data,error,isLoading}= usePosts()
             <p>Carregando Posts</p>
         </div>
 
-        <div>
-            <ul class="flex flex-col gap-3">
-                <li v-for="post in data">
-                    <Post :post />
-                </li>
-            </ul>
+        <div class="flex flex-col gap-3">
+            <div
+                class="bg-white rounded shadow-md p-2"
+                v-if="$page.props.auth.user.is_admin"
+            >
+                <NavLink
+                    :href="route('posts.create')"
+                    :active="route().current('posts.create')"
+                    class="text-sm text-blue-800"
+                >
+                    + Create Post
+                </NavLink>
+            </div>
+
+            <section>
+                <ul class="flex flex-col gap-3">
+                    <li v-for="post in data">
+                        <Post :post />
+                    </li>
+                </ul>
+            </section>
         </div>
     </AuthenticatedLayout>
 </template>
