@@ -7,6 +7,7 @@ readonly class CreatePostDTO
     public function __construct(
         public string $title,
         public string $content,
+        public int $userId
     )
     {
     }
@@ -16,6 +17,7 @@ readonly class CreatePostDTO
         return new self(
             title: $data['title'],
             content: $data['content'],
+            userId: $data['user_id']
         );
     }
 }

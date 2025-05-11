@@ -27,8 +27,8 @@ class ErrorResource extends JsonResource
         return [
             'title' => Arr::get($this, 'title'),
             'description' => Arr::get($this, 'description'),
-            'statusCode' => Arr::get($this, 'statusCode'),
-            'errorCode' => $this->getErrorCode(),
+            'status_code' => Arr::get($this, 'statusCode'),
+            'error_code' => $this->getErrorCode(),
             'fields' => Arr::get($this, 'fields'),
             'instance' => Arr::get($this, 'instance'),
             'timestamp' => Carbon::now()->toDateTimeString()
