@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\DTOs\Posts\CreatePostDTO;
+use App\Http\DTOs\Posts\PostsPaginateFilters;
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Resources\PaginationResource;
 use App\Http\Resources\PostResource;
-use App\Http\Resources\PostsCollection;
 use App\Models\Post;
-use App\Models\User;
+use App\Services\GetPostsPaginationQueryService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,12 +27,10 @@ class PostController extends Controller
 
     public function getPosts(Request $request)
     {
-        $userId = $request->query('user_id');
-        $user = User::query()->find($userId);
+        $filters = PostsPaginateFilters::make($request->query());
+        $pagination = new GetPostsPaginationQueryService($filters);
 
-        $posts = $user->posts->all();
-
-        return PostResource::collection($posts);
+        return PaginationResource::make($pagination->get())->dataResource(PostResource::class);
     }
 
     public function createPost(CreatePostRequest $request)

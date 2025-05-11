@@ -31,7 +31,7 @@ class ErrorResource extends JsonResource
             'errorCode' => $this->getErrorCode(),
             'fields' => Arr::get($this, 'fields'),
             'instance' => Arr::get($this, 'instance'),
-            'timestamp' => Carbon::now()
+            'timestamp' => Carbon::now()->toDateTimeString()
         ];
     }
 }

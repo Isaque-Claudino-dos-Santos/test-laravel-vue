@@ -1,6 +1,7 @@
 import { ErrorResponse } from "@/fetch/definitions";
-import { Axios, AxiosError } from "axios";
-import { useToast } from "vue-toast-notification";
+import { Axios } from "axios";
+
+type PromiseFetchResponse<T> = Promise<T | ErrorResponse>;
 
 export default class AxiosBuilder {
     private _url?: string;
@@ -42,7 +43,7 @@ export default class AxiosBuilder {
         return this;
     }
 
-    async fetch<T>() {
+    async fetch<T>(): PromiseFetchResponse<T> {
         const requestOptions = {
             url: this._url,
             method: this._method,
@@ -57,17 +58,9 @@ export default class AxiosBuilder {
             ] = `Bearer ${this._bearer}`;
         }
 
-        try {
-            const response = await this.axios.request(requestOptions);
-
-            return response.data as T;
-        } catch (err) {
-            if (err instanceof AxiosError) {
-                const error: AxiosError<ErrorResponse> = err;
-                useToast().error(error.response.data.title);
-            }
-        }
-
-        return null;
+        return await this.axios
+            .request(requestOptions)
+            .then((response) => Promise.resolve(response.data))
+            .catch((reason) => Promise.reject(reason.response.data));
     }
 }

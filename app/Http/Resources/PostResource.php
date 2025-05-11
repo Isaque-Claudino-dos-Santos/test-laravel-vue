@@ -13,7 +13,7 @@ class PostResource extends JsonResource
             'id' => $this['id'],
             'title' => $this['title'],
             'content' => $this['content'],
-            'created_at' => $this['created_at']
+            'created_at' => $this['created_at']->toDateTimeString()
         ];
     }
 }
