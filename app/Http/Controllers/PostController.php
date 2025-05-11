@@ -14,18 +14,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $apiAcesseToken = $request->session()->get('api_acesse_token');
-
-        return Inertia::render('Posts/List', compact('apiAcesseToken'));
+        return Inertia::render('Posts/List');
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $apiAcesseToken = $request->session()->get('api_acesse_token');
-
-        return Inertia::render('Posts/CreatePost', compact('apiAcesseToken'));
+        return Inertia::render('Posts/CreatePost');
     }
 
     public function getPosts(Request $request)
@@ -35,7 +31,7 @@ class PostController extends Controller
 
         $posts = $user->posts->all();
 
-        return PostsCollection::make($posts);
+        return PostResource::collection($posts);
     }
 
     public function createPost(CreatePostRequest $request)
