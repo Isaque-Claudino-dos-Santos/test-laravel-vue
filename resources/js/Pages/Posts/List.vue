@@ -61,13 +61,11 @@ const setPage = (page) => {
                     @set-page="setPage"
                 />
 
-                <div>
-                    <ul class="flex flex-col gap-3">
-                        <li v-for="post in pagination.data">
-                            <Post :post />
-                        </li>
-                    </ul>
-                </div>
+                <ul class="flex flex-col gap-3">
+                    <li v-for="post in pagination.data">
+                        <Post :post />
+                    </li>
+                </ul>
 
                 <Pagination
                     :page="filters.page"
