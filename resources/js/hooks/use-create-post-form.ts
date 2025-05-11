@@ -18,11 +18,16 @@ export default function useCreatePostForm() {
     const schema = z.object({
         title: z.string().min(1, "title is required"),
         content: z.string().min(1, "content is required"),
+        userId: z
+            .string()
+            .min(1, "user to send is required")
+            .transform((value) => Number(value)),
     });
 
     const form = useForm({
         title: "",
         content: "",
+        userId: "",
     });
 
     const onSubmit = () => {
@@ -39,6 +44,7 @@ export default function useCreatePostForm() {
         mutate({
             title: formValidated.title,
             content: formValidated.content,
+            user_id: formValidated.userId,
         });
     };
 

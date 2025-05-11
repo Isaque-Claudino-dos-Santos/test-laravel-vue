@@ -8,6 +8,7 @@ use App\Http\Requests\CreatePostRequest;
 use App\Http\Resources\PaginationResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\User;
 use App\Services\GetPostsPaginationQueryService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,7 +23,9 @@ class PostController extends Controller
 
     public function create()
     {
-        return Inertia::render('Posts/CreatePost');
+        $users = User::all();
+
+        return Inertia::render('Posts/CreatePost', compact('users'));
     }
 
     public function getPosts(Request $request)
@@ -35,13 +38,12 @@ class PostController extends Controller
 
     public function createPost(CreatePostRequest $request)
     {
-        $user = $request->user();
         $dto = CreatePostDTO::make($request->validated());
 
         $newPost = Post::create([
             'title' => $dto->title,
             'content' => $dto->content,
-            'user_id' => $user->id,
+            'user_id' => $dto->userId,
         ]);
 
         return response()->json([

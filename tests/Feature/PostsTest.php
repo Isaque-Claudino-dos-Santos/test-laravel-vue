@@ -39,11 +39,13 @@ class PostsTest extends TestCase
     #[Test]
     public function it_should_save_new_post_on_request_api()
     {
+        $user = $this->mockUser();
         $headers = $this->mockHeaders();
 
         $payload = [
             'title' => 'my post title',
-            'content' => 'my post content'
+            'content' => 'my post content',
+            'user_id' => $user->id
         ];
 
         $reponse = $this->post('/api/posts', $payload, $headers)->assertCreated();
@@ -103,8 +105,8 @@ class PostsTest extends TestCase
             ->assertJson([
                 "title" => "Unauthenticated.",
                 "description" => null,
-                "statusCode" => 401,
-                "errorCode" => "UNAUTHENTICATED",
+                "status_code" => 401,
+                "error_code" => "UNAUTHENTICATED",
                 "fields" => null,
                 "instance" => null,
                 "timestamp" => Carbon::now()->toDateTimeString(),
@@ -116,8 +118,8 @@ class PostsTest extends TestCase
             ->assertJson([
                 "title" => "Unauthenticated.",
                 "description" => null,
-                "statusCode" => 401,
-                "errorCode" => "UNAUTHENTICATED",
+                "status_code" => 401,
+                "error_code" => "UNAUTHENTICATED",
                 "fields" => null,
                 "instance" => null,
                 "timestamp" => Carbon::now()->toDateTimeString()
@@ -136,8 +138,8 @@ class PostsTest extends TestCase
             ->assertJson([
                 "title" => "Permission Denied",
                 "description" =>  'You do not have the necessary permission.',
-                "statusCode" => 401,
-                "errorCode" => 'PERMISSION_DENIED',
+                "status_code" => 401,
+                "error_code" => 'PERMISSION_DENIED',
                 "fields" => null,
                 "instance" => null,
                 "timestamp" => Carbon::now()->toDateTimeString(),

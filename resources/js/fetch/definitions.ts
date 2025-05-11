@@ -12,13 +12,14 @@ export type Post = {
 export type CreatePostPayload = {
     title: string;
     content: string;
+    user_id: number;
 };
 
 export type ErrorResponse = {
     title: string | null;
     description: string | null;
-    statusCode: number;
-    errorCode: string | null;
+    status_code: number;
+    error_code: string | null;
     fields: Record<string, string[]> | null;
     instance: string | null;
     timestamp: string;

@@ -7,6 +7,8 @@ import Title from "@/Components/Title.vue";
 import useCreatePostForm from "@/hooks/use-create-post-form";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
+const { users } = defineProps(["users"]);
+
 const { form, errors, onSubmit } = useCreatePostForm();
 </script>
 
@@ -40,6 +42,26 @@ const { form, errors, onSubmit } = useCreatePostForm();
                     <div v-if="'content' in errors">
                         <InputError
                             v-for="msg in errors.content"
+                            :message="msg"
+                        />
+                    </div>
+                </div>
+                <div>
+                    <InputLabel>Send To </InputLabel>
+                    <TextInput list="userid" v-model="form.userId" />
+                    <datalist id="userid">
+                        <option
+                            v-for="user of users"
+                            :value="user.id"
+                            :key="user.id"
+                        >
+                            {{ user.name }}
+                        </option>
+                    </datalist>
+
+                    <div v-if="'userId' in errors">
+                        <InputError
+                            v-for="msg in errors.userId"
                             :message="msg"
                         />
                     </div>
