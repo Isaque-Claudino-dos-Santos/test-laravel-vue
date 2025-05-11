@@ -4,7 +4,7 @@ import Post from "@/Components/Post.vue";
 import Title from "@/Components/Title.vue";
 import usePosts from "@/hooks/use-posts";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { usePage } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import { reactive } from "vue";
 import Pagination from "@/Components/Pagination.vue";
 
@@ -24,6 +24,8 @@ const setPage = (page) => {
 </script>
 
 <template>
+    <Head title="Posts" />
+
     <AuthenticatedLayout>
         <template #header>
             <Title>Posts</Title>
@@ -53,7 +55,7 @@ const setPage = (page) => {
                 </NavLink>
             </div>
 
-            <section v-if="!!pagination.total_data" class="flex flex-col gap-3">
+            <section v-if="!!pagination.total_data" class="flex flex-col gap-3 p-1">
                 <Pagination
                     :page="filters.page"
                     :prev-page="pagination.prev_page"

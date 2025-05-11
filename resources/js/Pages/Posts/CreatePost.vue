@@ -6,6 +6,7 @@ import TextInput from "@/Components/TextInput.vue";
 import Title from "@/Components/Title.vue";
 import useCreatePostForm from "@/hooks/use-create-post-form";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { Head } from "@inertiajs/vue3";
 
 const { users } = defineProps(["users"]);
 
@@ -13,6 +14,8 @@ const { form, errors, onSubmit } = useCreatePostForm();
 </script>
 
 <template>
+    <Head title="Create Post" />
+
     <AuthenticatedLayout>
         <template #header>
             <Title>Create Post</Title>
@@ -20,7 +23,7 @@ const { form, errors, onSubmit } = useCreatePostForm();
 
         <section>
             <form
-                class="flex flex-col flex-wrap gap-3"
+                class="flex flex-col flex-wrap gap-3 p-3"
                 @submit.prevent="onSubmit"
             >
                 <div>
