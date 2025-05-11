@@ -1,10 +1,19 @@
 import { apiAxios } from "@/fetch/axios-instance";
-import { CreatePostPayload, Post, ResponseData } from "@/fetch/definitions";
+import {
+    CreatePostPayload,
+    PaginationResponse,
+    Post,
+    ResponseData,
+} from "@/fetch/definitions";
 import AxiosBuilder from "@/utils/axios-builder";
 
 export type GetPostsOptions = {
     token?: string;
-    userId?: string | number;
+    filters: {
+        page?: number;
+        userId?: number;
+        limit?: number;
+    };
 };
 
 export type CreatePostOptions = {
@@ -13,18 +22,19 @@ export type CreatePostOptions = {
 };
 
 export async function getPosts(optinos: GetPostsOptions) {
-    const { token, userId } = optinos;
+    const { token, filters } = optinos;
 
     const params = {
-        user_id: userId,
+        user_id: filters.userId,
+        limit: filters.limit,
+        page: filters.page,
     };
 
-    return await AxiosBuilder.build(apiAxios)
+    return AxiosBuilder.build(apiAxios)
         .get("/api/posts")
         .bearer(token)
         .params(params)
-        .fetch<ResponseData<Post[]>>()
-        .then((response) => response.data);
+        .fetch<PaginationResponse<Post>>();
 }
 
 export async function createPost(optinos: CreatePostOptions) {
@@ -34,6 +44,5 @@ export async function createPost(optinos: CreatePostOptions) {
         .post("/api/posts")
         .bearer(token)
         .payload(payload)
-        .fetch<ResponseData<Post>>()
-        .then((r) => r.data);
+        .fetch<ResponseData<Post>>();
 }

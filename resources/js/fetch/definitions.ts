@@ -23,3 +23,13 @@ export type ErrorResponse = {
     instance: string | null;
     timestamp: string;
 };
+
+export type PaginationResponse<T> = {
+    next_page?: number;
+    prev_page?: number;
+    per_pages: number;
+    total_data: number;
+    total_pages: number;
+    current_page: number;
+    data: T[];
+};
