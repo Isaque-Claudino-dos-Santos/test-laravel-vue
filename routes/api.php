@@ -14,5 +14,5 @@ Route::controller(PostController::class)
     ->middleware('auth:sanctum')
     ->group(function () {
         Route::get('/', 'getPosts');
-        Route::post('/', 'createPost');
+        Route::post('/', 'createPost')->middleware('onlyAdmin');
     });
